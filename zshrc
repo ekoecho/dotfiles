@@ -13,7 +13,8 @@ zgen oh-my-zsh plugins/command-not-found
 zgen load zsh-users/zsh-syntax-highlighting
 
 # Load the theme.
-zgen oh-my-zsh themes/sorin
+#zgen oh-my-zsh themes/sorin
+zgen oh-my-zsh themes/agnoster
 
   # completions
     zgen load zsh-users/zsh-completions src
@@ -23,7 +24,7 @@ zgen oh-my-zsh themes/sorin
     zgen save
 fi
 export GOPATH=~/go
-export PATH=$PATH:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$GOPATH/bin:$HOME/scripts:$HOME/.tmux_scripts:/usr/local/go/bin
+export PATH=$HOME/.cargo/bin:/home/gclark/anaconda3/bin:$PATH:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$GOPATH/bin:$HOME/scripts:$HOME/.tmux_scripts:/usr/local/go/bin:$HOME/Programs/sdk/platform-tools:$HOME/.composer/vendor/bin
 
 export TERM=xterm-256color
 #export TERM=screen-256color
@@ -41,3 +42,9 @@ setopt correct
 
 zstyle -e ':completion::*:*:*:hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
 
+
+export NVM_DIR="/home/gclark/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
