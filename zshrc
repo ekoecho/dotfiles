@@ -40,6 +40,8 @@ POWERLEVEL9K_STATUS_VERBOSE=false
 
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 
+POWERLEVEL9K_LINUX_ICON="\ue73a"
+
 zgen load bhilburn/powerlevel9k powerlevel9k
 
 
