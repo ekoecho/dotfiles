@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [ ! -d ~/.zsh/zsh-autosuggestions ]; then
+git clone git://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+fi
+
 if [ ! -d ~/zgen ]; then
   echo "Getting zgen files"
   git clone https://github.com/tarjoilija/zgen.git ~/zgen
