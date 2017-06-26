@@ -76,7 +76,7 @@ zgen load bhilburn/powerlevel9k powerlevel9k
 
 
 export GOPATH=~/go
-export PATH=$HOME/.cargo/bin:$HOME/anaconda3/bin:$PATH:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$GOPATH/bin:$HOME/scripts:$HOME/.tmux_scripts:/usr/local/go/bin:$HOME/Programs/sdk/platform-tools:$HOME/.composer/vendor/bin
+export PATH=$HOME/.cargo/bin:$PATH:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$GOPATH/bin:$HOME/scripts:$HOME/.tmux_scripts:/usr/local/go/bin:$HOME/Programs/sdk/platform-tools:$HOME/.composer/vendor/bin
 
 #export TERM=xterm-256color
 #export TERM=screen-256color
@@ -89,6 +89,9 @@ alias ap="ansible-playbook"
 alias serve="python -m SimpleHTTPServer"
 
 alias gotest='go test -v . | sed /PASS/s//$(printf "\033[32mPASS\033[0m")/ | sed /FAIL/s//$(printf "\033[31mFAIL\033[0m")/'
+
+alias mkd-on='eval $(minikube docker-env)'
+alias mkd-off='eval $(minikube docker-env -u)'
 
 
 setopt EXTENDED_HISTORY
