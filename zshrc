@@ -76,7 +76,7 @@ zgen load bhilburn/powerlevel9k powerlevel9k
 
 
 export GOPATH=~/go
-export PATH=$HOME/.cargo/bin:$PATH:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$GOPATH/bin:$HOME/scripts:$HOME/.tmux_scripts:/usr/local/go/bin:$HOME/Programs/sdk/platform-tools:$HOME/.composer/vendor/bin
+export PATH=/home/graham/anaconda3/bin:$HOME/.cargo/bin:$PATH:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$GOPATH/bin:$HOME/scripts:$HOME/.tmux_scripts:/usr/local/go/bin:$HOME/Programs/sdk/platform-tools:$HOME/.composer/vendor/bin
 
 #export TERM=xterm-256color
 #export TERM=screen-256color
@@ -92,6 +92,10 @@ alias gotest='go test -v . | sed /PASS/s//$(printf "\033[32mPASS\033[0m")/ | sed
 
 alias mkd-on='eval $(minikube docker-env)'
 alias mkd-off='eval $(minikube docker-env -u)'
+alias skynet='firefox skynet.novamedia.com/#/login'
+alias vra='google-chrome https://serviceportal.novamedia.com/vcac/org/novamedia/#'
+alias vsphere'google-chrome https://prvmvc001024.infra.novamedia.com:9443/vsphere-client/#'
+
 
 
 setopt EXTENDED_HISTORY
