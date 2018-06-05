@@ -85,6 +85,8 @@ alias tmls="tmux list-sessions"
 alias tmks="tmux kill-session -t "
 
 alias ap="ansible-playbook"
+alias av="ansible-vault"
+alias avv="ansible-vault view"
 
 alias serve="python -m SimpleHTTPServer"
 
@@ -94,8 +96,15 @@ alias mkd-on='eval $(minikube docker-env)'
 alias mkd-off='eval $(minikube docker-env -u)'
 alias skynet='firefox skynet.novamedia.com/#/login'
 alias vra='google-chrome https://serviceportal.novamedia.com/vcac/org/novamedia/#'
-alias vsphere'google-chrome https://prvmvc001024.infra.novamedia.com:9443/vsphere-client/#'
+alias vsphere='google-chrome https://prvmvc001024.infra.novamedia.com:9443/vsphere-client/#'
+alias awsst='firefox https://signin.aws.amazon.com/switchrole?account=107538011926\&roleName=rol-identity-admin\&displayName=st\ admin'
+alias awsat='firefox https://signin.aws.amazon.com/switchrole?account=113268170478\&roleName=rol-identity-admin\&displayName=at\ admin'
+alias awspr='firefox https://signin.aws.amazon.com/switchrole?account=163568250066\&roleName=rol-identity-admin\&displayName=pr\ admin'
+alias awsst='firefox https://signin.aws.amazon.com/switchrole?account=107538011926\&roleName=rol-identity-admin\&displayName=T-admin'
 
+#ppl-sw-logging  aws.sw.logging@postcodelottery.co.uk    515951999644    Created on 6/9/2017
+#Sandbox         aws.sandbox@postcodelottery.co.uk       744770992125    Created on 6/7/2017
+#ppl-sw-dv       aws.sw.dv@postcodelottery.co.uk         854680800964    Created on 6/9/2017
 
 
 setopt EXTENDED_HISTORY
@@ -104,8 +113,14 @@ setopt correct
 zstyle -e ':completion::*:*:*:hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
 
 
-export NVM_DIR="/home/gclark/.nvm"
+export NVM_DIR="/home/pluk.eeghlan.net/graham.clark/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
+source /home/pluk.eeghlan.net/graham.clark/anaconda3/bin/aws_zsh_completer.sh
+# added by Anaconda3 installer
+export PATH="/home/pluk.eeghlan.net/graham.clark/anaconda3/bin:$PATH"
+export ANSIBLE_VAULT_PASSWORD_FILE=$HOME/.av
+
+export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
