@@ -113,14 +113,10 @@ setopt correct
 zstyle -e ':completion::*:*:*:hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
 
 
-export NVM_DIR="/home/pluk.eeghlan.net/graham.clark/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source /home/pluk.eeghlan.net/graham.clark/anaconda3/bin/aws_zsh_completer.sh
+#source /home/pluk.eeghlan.net/graham.clark/anaconda3/bin/aws_zsh_completer.sh
 # added by Anaconda3 installer
-export PATH="/home/pluk.eeghlan.net/graham.clark/anaconda3/bin:$PATH"
 export ANSIBLE_VAULT_PASSWORD_FILE=$HOME/.av
 
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
