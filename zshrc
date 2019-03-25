@@ -46,7 +46,7 @@ POWERLEVEL9K_STATUS_VERBOSE=false
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
 
 POWERLEVEL9K_LINUX_ICON="\ue73a"
-POWERLEVEL9K_OS_ICON_BACKGROUND="166"
+POWERLEVEL9K_OS_ICON_BACKGROUND="25"
 POWERLEVEL9K_DIR_HOME_FOREGROUND="white"
 POWERLEVEL9K_DIR_HOME_BACKGROUND="237"
 POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND="white"
@@ -102,6 +102,12 @@ alias awsat='firefox https://signin.aws.amazon.com/switchrole?account=1132681704
 alias awspr='firefox https://signin.aws.amazon.com/switchrole?account=163568250066\&roleName=rol-identity-admin\&displayName=pr\ admin'
 alias awsst='firefox https://signin.aws.amazon.com/switchrole?account=107538011926\&roleName=rol-identity-admin\&displayName=T-admin'
 
+alias kgp='kubectl get pods'
+alias kga='kubectl get all'
+alias kgn='kubectl get namespaces'
+
+
+
 #ppl-sw-logging  aws.sw.logging@postcodelottery.co.uk    515951999644    Created on 6/9/2017
 #Sandbox         aws.sandbox@postcodelottery.co.uk       744770992125    Created on 6/7/2017
 #ppl-sw-dv       aws.sw.dv@postcodelottery.co.uk         854680800964    Created on 6/9/2017
@@ -120,3 +126,18 @@ source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 export ANSIBLE_VAULT_PASSWORD_FILE=$HOME/.av
 
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
+export HOMEBREW_GITHUB_API_TOKEN=4c7416d3bdd6d147689f8b082c75b6a57b734698
+
+case `uname` in
+  Darwin)
+    # commands for OS X go here
+    alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs -nw'
+    alias updatedb='/usr/libexec/locate.updatedb'
+  ;;
+  Linux)
+    # commands for Linux go here
+  ;;
+  FreeBSD)
+    # commands for FreeBSD go here
+  ;;
+esac
