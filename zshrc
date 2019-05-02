@@ -1,3 +1,4 @@
+# zmodload zsh/zprof
 source ~/zgen/zgen.zsh
 export TERM="xterm-256color"
 if ! zgen saved; then
@@ -7,11 +8,14 @@ zgen oh-my-zsh
 
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
 zgen oh-my-zsh plugins/golang
+zgen oh-my-zsh plugins/virtualenv
 zgen oh-my-zsh plugins/ssh-agent
 zgen oh-my-zsh plugins/docker
+zgen oh-my-zsh plugins/fzf
 zgen oh-my-zsh plugins/command-not-found
 
 zgen load zsh-users/zsh-syntax-highlighting
+
 
 # Load the theme.
 #zgen oh-my-zsh themes/sorin
@@ -36,7 +40,7 @@ POWERLEVEL9K_MODE='awesome-fontconfig'
 
 
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon dir vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status time background_jobs)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status virtualenv background_jobs)
 
 POWERLEVEL9K_SHORTEN_STRATEGY="truncate_middle"
 POWERLEVEL9K_SHORTEN_DIR_LENGTH=4
@@ -71,9 +75,10 @@ POWERLEVEL9K_VCS_CLEAN_FOREGROUND='028'
 #POWERLEVEL9K_VCS_STAGED_ICON="%{%F{070}%}\u2517%{%F{default}%}"
 
 
-zgen load bhilburn/powerlevel9k powerlevel9k
+#zgen load bhilburn/powerlevel9k powerlevel9k
 
 
+zgen load romkatv/powerlevel10k powerlevel10k
 
 export GOPATH=~/go
 export PATH=/home/graham/anaconda3/bin:$HOME/.cargo/bin:$PATH:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$GOPATH/bin:$HOME/scripts:$HOME/.tmux_scripts:/usr/local/go/bin:$HOME/Programs/sdk/platform-tools:$HOME/.composer/vendor/bin
@@ -94,24 +99,10 @@ alias gotest='go test -v . | sed /PASS/s//$(printf "\033[32mPASS\033[0m")/ | sed
 
 alias mkd-on='eval $(minikube docker-env)'
 alias mkd-off='eval $(minikube docker-env -u)'
-alias skynet='firefox skynet.novamedia.com/#/login'
-alias vra='google-chrome https://serviceportal.novamedia.com/vcac/org/novamedia/#'
-alias vsphere='google-chrome https://prvmvc001024.infra.novamedia.com:9443/vsphere-client/#'
-alias awsst='firefox https://signin.aws.amazon.com/switchrole?account=107538011926\&roleName=rol-identity-admin\&displayName=st\ admin'
-alias awsat='firefox https://signin.aws.amazon.com/switchrole?account=113268170478\&roleName=rol-identity-admin\&displayName=at\ admin'
-alias awspr='firefox https://signin.aws.amazon.com/switchrole?account=163568250066\&roleName=rol-identity-admin\&displayName=pr\ admin'
-alias awsst='firefox https://signin.aws.amazon.com/switchrole?account=107538011926\&roleName=rol-identity-admin\&displayName=T-admin'
 
 alias kgp='kubectl get pods'
 alias kga='kubectl get all'
 alias kgn='kubectl get namespaces'
-
-
-
-#ppl-sw-logging  aws.sw.logging@postcodelottery.co.uk    515951999644    Created on 6/9/2017
-#Sandbox         aws.sandbox@postcodelottery.co.uk       744770992125    Created on 6/7/2017
-#ppl-sw-dv       aws.sw.dv@postcodelottery.co.uk         854680800964    Created on 6/9/2017
-
 
 setopt EXTENDED_HISTORY
 setopt correct
@@ -121,18 +112,19 @@ zstyle -e ':completion::*:*:*:hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-#source /home/pluk.eeghlan.net/graham.clark/anaconda3/bin/aws_zsh_completer.sh
+source ~/bin/aws_zsh_completer.sh
 # added by Anaconda3 installer
 export ANSIBLE_VAULT_PASSWORD_FILE=$HOME/.av
 
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
-export HOMEBREW_GITHUB_API_TOKEN=4c7416d3bdd6d147689f8b082c75b6a57b734698
-
+alias preview="fzf --preview 'bat --color \"always\" {}'"
+export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(vim {})+abort'"
+source ~/.homebrew
 case `uname` in
   Darwin)
     # commands for OS X go here
     alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs -nw'
-    alias updatedb='/usr/libexec/locate.updatedb'
+    alias updatedb='sudo /usr/libexec/locate.updatedb'
   ;;
   Linux)
     # commands for Linux go here
@@ -141,3 +133,55 @@ case `uname` in
     # commands for FreeBSD go here
   ;;
 esac
+source ~/.profile
+
+# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
+export PATH="$PATH:$HOME/.rvm/bin"
+
+export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
+export OPSCODE_USER="graham_clark"
+export ORGNAME="getaroom-staging"
+
+run_ranger () {
+    echo
+    ranger --choosedir=$HOME/.rangerdir < $TTY
+    LASTDIR=`cat $HOME/.rangerdir`
+    cd "$LASTDIR"
+    zle reset-prompt
+}
+zle -N run_ranger
+bindkey '^f' run_ranger
+
+run_kubectx () {
+    kubectx < $TTY
+    zle reset-prompt
+}
+zle -N run_kubectx
+bindkey '^k' run_kubectx
+
+source <(helm completion zsh)
+
+
+# This is the same functionality as fzf's ctrl-t, except that the file or
+# directory selected is now automatically cd'ed or opened, respectively.
+fzf-open-file-or-dir() {
+  local cmd="command find -L . \
+    \\( -path '*/\\.*' -o -fstype 'dev' -o -fstype 'proc' \\) -prune \
+    -o -type f -print \
+    -o -type d -print \
+    -o -type l -print 2> /dev/null | sed 1d | cut -b3-"
+  local out=$(eval $cmd | fzf-tmux --preview="bat --color=always {}"  --exit-0)
+
+  if [ -f "$out" ]; then
+    vim "$out" < $TTY
+  elif [ -d "$out" ]; then
+    cd "$out"
+    zle reset-prompt
+  fi
+}
+zle     -N   fzf-open-file-or-dir
+bindkey '^P' fzf-open-file-or-dir
+
+
+
+# zprof
