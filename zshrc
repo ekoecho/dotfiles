@@ -1,20 +1,17 @@
-# zmodload zsh/zprof
+#zmodload zsh/zprof
 source ~/zgen/zgen.zsh
 export TERM="xterm-256color"
+export HISTFILE=~/.zsh_history
 if ! zgen saved; then
 
 # Load the oh-my-zsh's library.
-zgen oh-my-zsh
+# zgen oh-my-zsh
 
 # Bundles from the default repo (robbyrussell's oh-my-zsh).
-zgen oh-my-zsh plugins/golang
-zgen oh-my-zsh plugins/virtualenv
-zgen oh-my-zsh plugins/ssh-agent
-zgen oh-my-zsh plugins/docker
-zgen oh-my-zsh plugins/fzf
-zgen oh-my-zsh plugins/command-not-found
+#zgen oh-my-zsh plugins/docker
+#zgen oh-my-zsh plugins/fzf
+# zgen oh-my-zsh plugins/command-not-found
 
-zgen load zsh-users/zsh-syntax-highlighting
 
 
 # Load the theme.
@@ -29,6 +26,10 @@ zgen load zsh-users/zsh-syntax-highlighting
     # save all to init script
     zgen save
 fi
+bindkey "\e[1~" beginning-of-line
+bindkey "\e[4~" end-of-line
+bindkey    "^[[3~"          delete-char
+bindkey    "^[3;5~"         delete-char
 
 
 POWERLEVEL9K_MODE='awesome-fontconfig'
@@ -104,6 +105,8 @@ alias kgp='kubectl get pods'
 alias kga='kubectl get all'
 alias kgn='kubectl get namespaces'
 
+alias ll='ls -lpah'
+
 setopt EXTENDED_HISTORY
 setopt correct
 
@@ -159,7 +162,7 @@ run_kubectx () {
 zle -N run_kubectx
 bindkey '^k' run_kubectx
 
-source <(helm completion zsh)
+#source <(helm completion zsh)
 
 
 # This is the same functionality as fzf's ctrl-t, except that the file or
@@ -170,18 +173,32 @@ fzf-open-file-or-dir() {
     -o -type f -print \
     -o -type d -print \
     -o -type l -print 2> /dev/null | sed 1d | cut -b3-"
-  local out=$(eval $cmd | fzf-tmux --preview="bat --color=always {}"  --exit-0)
+  local out=$(eval $cmd | fzf --preview="bat --color=always {}"  --exit-0)
 
   if [ -f "$out" ]; then
     vim "$out" < $TTY
   elif [ -d "$out" ]; then
     cd "$out"
-    zle reset-prompt
+    zle clear-screen
   fi
+  zle reset-prompt
 }
 zle     -N   fzf-open-file-or-dir
 bindkey '^P' fzf-open-file-or-dir
 
+## History file configuration
+[ -z "$HISTFILE" ] && HISTFILE="$HOME/.zsh_history"
+HISTSIZE=50000
+SAVEHIST=10000
 
+## History command configuration
+setopt extended_history       # record timestamp of command in HISTFILE
+setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
+setopt hist_ignore_dups       # ignore duplicated commands history list
+setopt hist_ignore_space      # ignore commands that start with space
+setopt hist_verify            # show command with history expansion to user before running it
+setopt inc_append_history     # add commands to HISTFILE in order of execution
+setopt share_history # share command history data
 
-# zprof
+zgen load zsh-users/zsh-syntax-highlighting
+#zprof
