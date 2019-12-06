@@ -19,3 +19,9 @@ if [ ! -f ~/.tmux.conf ]; then
   echo "Linking tmux.conf"
   ln -s ~/dotfiles/tmux.conf ~/.tmux.conf
 fi
+
+
+if [ ! -f ~/.gitconfig ]; then
+  echo "Linking gitconfig"
+  ln -s ~/dotfiles/gitconfig ~/.gitconfig
+fi

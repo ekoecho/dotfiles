@@ -61,6 +61,7 @@ POWERLEVEL9K_DIR_DEFAULT_BACKGROUND="237"
 POWERLEVEL9K_TIME_BACKGROUND="237"
 POWERLEVEL9K_TIME_FOREGROUND="white"
 POWERLEVEL9K_FAIL_ICON="\uf05e"
+POWERLEVEL9K_PYTHON_ICON="\ue73c"
 #POWERLEVEL9K_FAIL_ICON="\e[1m¯\(ツ)/¯"
 
 
@@ -82,7 +83,7 @@ POWERLEVEL9K_VCS_CLEAN_FOREGROUND='028'
 zgen load romkatv/powerlevel10k powerlevel10k
 
 export GOPATH=~/go
-export PATH=/home/graham/anaconda3/bin:$HOME/.cargo/bin:$PATH:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$GOPATH/bin:$HOME/scripts:$HOME/.tmux_scripts:/usr/local/go/bin:$HOME/Programs/sdk/platform-tools:$HOME/.composer/vendor/bin
+export PATH=$HOME/bin:$HOME/.krew/bin:/home/graham/anaconda3/bin:$HOME/.cargo/bin:$PATH:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$GOPATH/bin:$HOME/scripts:$HOME/.tmux_scripts:/usr/local/go/bin:$HOME/Programs/sdk/platform-tools:$HOME/.composer/vendor/bin
 
 #export TERM=xterm-256color
 #export TERM=screen-256color
@@ -100,15 +101,24 @@ alias gotest='go test -v . | sed /PASS/s//$(printf "\033[32mPASS\033[0m")/ | sed
 
 alias mkd-on='eval $(minikube docker-env)'
 alias mkd-off='eval $(minikube docker-env -u)'
-
+alias watch='watch '
+alias k='kubectl'
 alias kgp='kubectl get pods'
+alias klo='kubectl logs'
 alias kga='kubectl get all'
 alias kgn='kubectl get namespaces'
+alias k2='kubectl --kubeconfig ~/.kube/alt_config'
+alias kbb='k run -i --tty --rm busybox --image=busybox --restart=Never -- sh'
 
 alias ll='ls -lpah'
 
+alias gitb="git branch | grep '^\*' | cut -d' ' -f2 | pbcopy"
+
 setopt EXTENDED_HISTORY
+setopt INC_APPEND_HISTORY
 setopt correct
+
+alias history='history 1'
 
 zstyle -e ':completion::*:*:*:hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~/.ssh/known_}hosts(|2)(N) /dev/null)"}%%[# ]*}//,/ })'
 
@@ -144,6 +154,7 @@ export PATH="$PATH:$HOME/.rvm/bin"
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 export OPSCODE_USER="graham_clark"
 export ORGNAME="getaroom-staging"
+export DOCKER_BUILDKIT=1
 
 run_ranger () {
     echo
@@ -161,6 +172,15 @@ run_kubectx () {
 }
 zle -N run_kubectx
 bindkey '^k' run_kubectx
+
+run_kubens () {
+    kubens < $TTY
+    zle reset-prompt
+}
+zle -N run_kubens
+bindkey '^[^K' run_kubens
+
+
 
 #source <(helm completion zsh)
 
@@ -200,5 +220,9 @@ setopt hist_verify            # show command with history expansion to user befo
 setopt inc_append_history     # add commands to HISTFILE in order of execution
 setopt share_history # share command history data
 
+eval "$(pyenv init -)"
+
 zgen load zsh-users/zsh-syntax-highlighting
 #zprof
+
+export GOPATH="$HOME/go"; export GOROOT="$HOME/.go"; export PATH="$GOPATH/bin:$PATH"; # g-install: do NOT edit, see https://github.com/stefanmaric/g
