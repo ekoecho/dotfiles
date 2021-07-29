@@ -4,21 +4,6 @@ export TERM="xterm-256color"
 export HISTFILE=~/.zsh_history
 if ! zgen saved; then
 
-# Load the oh-my-zsh's library.
-# zgen oh-my-zsh
-
-# Bundles from the default repo (robbyrussell's oh-my-zsh).
-#zgen oh-my-zsh plugins/docker
-#zgen oh-my-zsh plugins/fzf
-# zgen oh-my-zsh plugins/command-not-found
-
-
-
-# Load the theme.
-#zgen oh-my-zsh themes/sorin
-#zgen oh-my-zsh themes/agnoster
-#zgen load caiogondim/bullet-train-oh-my-zsh-theme bullet-train
-
   # completions
     zgen load zsh-users/zsh-completions src
 
@@ -32,58 +17,8 @@ bindkey    "^[[3~"          delete-char
 bindkey    "^[3;5~"         delete-char
 
 
-POWERLEVEL9K_MODE='awesome-fontconfig'
-
-# Disable dir icons
- POWERLEVEL9K_HOME_ICON=''
- POWERLEVEL9K_HOME_SUB_ICON=''
- POWERLEVEL9K_FOLDER_ICON=''
-
-
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(os_icon dir vcs)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(status virtualenv background_jobs)
-
-POWERLEVEL9K_SHORTEN_STRATEGY="truncate_middle"
-POWERLEVEL9K_SHORTEN_DIR_LENGTH=4
-
-POWERLEVEL9K_STATUS_VERBOSE=false
-
-POWERLEVEL9K_PROMPT_ON_NEWLINE=true
-
-POWERLEVEL9K_LINUX_ICON="\ue73a"
-POWERLEVEL9K_OS_ICON_BACKGROUND="25"
-POWERLEVEL9K_DIR_HOME_FOREGROUND="white"
-POWERLEVEL9K_DIR_HOME_BACKGROUND="237"
-POWERLEVEL9K_DIR_HOME_SUBFOLDER_FOREGROUND="white"
-POWERLEVEL9K_DIR_HOME_SUBFOLDER_BACKGROUND="237"
-POWERLEVEL9K_DIR_DEFAULT_FOREGROUND="white"
-POWERLEVEL9K_DIR_DEFAULT_BACKGROUND="237"
-POWERLEVEL9K_TIME_BACKGROUND="237"
-POWERLEVEL9K_TIME_FOREGROUND="white"
-POWERLEVEL9K_FAIL_ICON="\uf05e"
-POWERLEVEL9K_PYTHON_ICON="\ue73c"
-#POWERLEVEL9K_FAIL_ICON="\e[1m¯\(ツ)/¯"
-
-
-
-
-POWERLEVEL9K_VCS_MODIFIED_BACKGROUND='235'
-POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND='235'
-POWERLEVEL9K_VCS_CLEAN_BACKGROUND='235'
-
-POWERLEVEL9K_VCS_MODIFIED_FOREGROUND='220'
-POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND='220'
-POWERLEVEL9K_VCS_CLEAN_FOREGROUND='028'
-#POWERLEVEL9K_VCS_STAGED_ICON="%{%F{070}%}\u2517%{%F{default}%}"
-
-
-#zgen load bhilburn/powerlevel9k powerlevel9k
-
-
-zgen load romkatv/powerlevel10k powerlevel10k
-
 export GOPATH=~/go
-export PATH=$HOME/bin:$HOME/.krew/bin:/home/graham/anaconda3/bin:$HOME/.cargo/bin:$PATH:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$GOPATH/bin:$HOME/scripts:$HOME/.tmux_scripts:/usr/local/go/bin:$HOME/Programs/sdk/platform-tools:$HOME/.composer/vendor/bin
+export PATH=/home/gee/.local/share/coursier/bin:/home/linuxbrew/.linuxbrew/bin:$HOME/bin:$HOME/.tfenv/bin:$HOME/.tgenv/bin:$HOME/.krew/bin:/home/graham/anaconda3/bin:$HOME/.cargo/bin:$PATH:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$GOPATH/bin:$HOME/scripts:$HOME/.tmux_scripts:/usr/local/go/bin:$HOME/Programs/sdk/platform-tools:$HOME/.composer/vendor/bin
 
 #export TERM=xterm-256color
 #export TERM=screen-256color
@@ -112,7 +47,6 @@ alias kbb='k run -i --tty --rm busybox --image=busybox --restart=Never -- sh'
 
 alias ll='ls -lpah'
 
-alias gitb="git branch | grep '^\*' | cut -d' ' -f2 | pbcopy"
 
 setopt EXTENDED_HISTORY
 setopt INC_APPEND_HISTORY
@@ -125,22 +59,24 @@ zstyle -e ':completion::*:*:*:hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
-source ~/bin/aws_zsh_completer.sh
+
+autoload bashcompinit && bashcompinit
+complete -C '/usr/local/bin/aws_completer' aws
 # added by Anaconda3 installer
-export ANSIBLE_VAULT_PASSWORD_FILE=$HOME/.av
 
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 alias preview="fzf --preview 'bat --color \"always\" {}'"
 export FZF_DEFAULT_OPTS="--bind='ctrl-o:execute(vim {})+abort'"
-source ~/.homebrew
 case `uname` in
   Darwin)
     # commands for OS X go here
     alias emacs='/Applications/Emacs.app/Contents/MacOS/Emacs -nw'
     alias updatedb='sudo /usr/libexec/locate.updatedb'
+alias gitb="git branch | grep '^\*' | cut -d' ' -f2 | pbcopy"
   ;;
   Linux)
     # commands for Linux go here
+alias gitb="git branch | grep '^\*' | cut -d' ' -f2 | xclip"
   ;;
   FreeBSD)
     # commands for FreeBSD go here
@@ -178,7 +114,7 @@ run_kubens () {
     zle reset-prompt
 }
 zle -N run_kubens
-bindkey '^[^K' run_kubens
+bindkey '^j' run_kubens
 
 
 
@@ -220,9 +156,35 @@ setopt hist_verify            # show command with history expansion to user befo
 setopt inc_append_history     # add commands to HISTFILE in order of execution
 setopt share_history # share command history data
 
+##eval "$(pyenv init -)"
+#
+export PATH="/home/gee/.pyenv/bin:$PATH"
 eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
 
 zgen load zsh-users/zsh-syntax-highlighting
 #zprof
 
-export GOPATH="$HOME/go"; export GOROOT="$HOME/.go"; export PATH="$GOPATH/bin:$PATH"; # g-install: do NOT edit, see https://github.com/stefanmaric/g
+export GOPATH="$HOME/go"; export PATH="$GOPATH/bin:$PATH"; # g-install: do NOT edit, see https://github.com/stefanmaric/g
+
+source /home/gee/.config/broot/launcher/bash/br
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/home/gee/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/home/gee/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/home/gee/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/home/gee/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+export PATH="$PATH:/usr/local/protobuf/bin"
+eval "$(starship init zsh)"
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+
