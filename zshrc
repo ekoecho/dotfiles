@@ -1,11 +1,12 @@
 #zmodload zsh/zprof
+setopt nonomatch
 source ~/zgen/zgen.zsh
 export TERM="xterm-256color"
 export HISTFILE=~/.zsh_history
 if ! zgen saved; then
 
   # completions
-    zgen load zsh-users/zsh-completions src
+  #  zgen load zsh-users/zsh-completions src
 
 
     # save all to init script
@@ -119,7 +120,7 @@ bindkey '^j' run_kubens
 
 
 #source <(helm completion zsh)
-
+source <(kubectl completion zsh)
 
 # This is the same functionality as fzf's ctrl-t, except that the file or
 # directory selected is now automatically cd'ed or opened, respectively.
@@ -158,9 +159,9 @@ setopt share_history # share command history data
 
 ##eval "$(pyenv init -)"
 #
-export PATH="/home/gee/.pyenv/bin:$PATH"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+#export PATH="/home/gee/.pyenv/bin:$PATH"
+#eval "$(pyenv init -)"
+#eval "$(pyenv virtualenv-init -)"
 
 zgen load zsh-users/zsh-syntax-highlighting
 #zprof
@@ -188,3 +189,6 @@ export PATH="$PATH:/usr/local/protobuf/bin"
 eval "$(starship init zsh)"
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
+
+source /Users/gee/.config/broot/launcher/bash/br
+fpath+=${ZDOTDIR:-~}/.zsh_functions
