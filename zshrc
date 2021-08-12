@@ -62,7 +62,12 @@ zstyle -e ':completion::*:*:*:hosts' hosts 'reply=(${=${${(f)"$(cat {/etc/ssh_,~
 source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 autoload bashcompinit && bashcompinit
+<<<<<<< Updated upstream
 complete -C '/usr/local/bin/aws_completer' aws
+=======
+complete -C '/opt/homebrew/bin/aws_completer' aws
+# added by Anaconda3 installer
+>>>>>>> Stashed changes
 
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 alias preview="fzf --preview 'bat --color \"always\" {}'"
