@@ -6,7 +6,7 @@ export HISTFILE=~/.zsh_history
 if ! zgen saved; then
 
   # completions
-  #  zgen load zsh-users/zsh-completions src
+  #zgen load zsh-users/zsh-completions src
 
 
     # save all to init script
@@ -63,7 +63,6 @@ source ~/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 autoload bashcompinit && bashcompinit
 complete -C '/usr/local/bin/aws_completer' aws
-# added by Anaconda3 installer
 
 export FZF_DEFAULT_COMMAND='rg --files --no-ignore --hidden --follow --glob "!.git/*"'
 alias preview="fzf --preview 'bat --color \"always\" {}'"
@@ -85,12 +84,7 @@ alias gitb="git branch | grep '^\*' | cut -d' ' -f2 | xclip"
 esac
 source ~/.profile
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-
 export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
-export OPSCODE_USER="graham_clark"
-export ORGNAME="getaroom-staging"
 export DOCKER_BUILDKIT=1
 
 run_ranger () {
@@ -163,32 +157,16 @@ setopt share_history # share command history data
 #eval "$(pyenv init -)"
 #eval "$(pyenv virtualenv-init -)"
 
-zgen load zsh-users/zsh-syntax-highlighting
+#zgen load zsh-users/zsh-syntax-highlighting
 #zprof
 
 export GOPATH="$HOME/go"; export PATH="$GOPATH/bin:$PATH"; # g-install: do NOT edit, see https://github.com/stefanmaric/g
-
-source /home/gee/.config/broot/launcher/bash/br
-
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/gee/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/gee/anaconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/gee/anaconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/gee/anaconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
 
 export PATH="$PATH:/usr/local/protobuf/bin"
 eval "$(starship init zsh)"
 export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 
 
-source /Users/gee/.config/broot/launcher/bash/br
 fpath+=${ZDOTDIR:-~}/.zsh_functions
+
+source /Users/Graham/.config/broot/launcher/bash/br

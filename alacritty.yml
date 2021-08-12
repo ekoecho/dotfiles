@@ -110,6 +110,10 @@ font:
   use_thin_strokes: true
 
 shell:
-  program: /opt/homebrew/bin/tmux
+  program: /usr/local/bin/tmux
   args:
-    - "-2"
+  - "-2"
+
+key_bindings:
+  - { key: Key3,     mods: Alt,     chars: "#"  }
+ 
