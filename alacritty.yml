@@ -110,7 +110,7 @@ font:
   use_thin_strokes: true
 
 shell:
-  program: /usr/local/bin/tmux
+  program: /opt/homebrew/bin/tmux
   args:
   - "-2"
 
