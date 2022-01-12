@@ -1,7 +1,7 @@
 #zmodload zsh/zprof
 setopt nonomatch
 source ~/zgen/zgen.zsh
-export TERM="xterm-256color"
+export TERM="alacritty"
 export HISTFILE=~/.zsh_history
 if ! zgen saved; then
 
@@ -12,17 +12,29 @@ if ! zgen saved; then
     # save all to init script
     zgen save
 fi
+
+# Enable Ctrl-x-e to edit command line
+autoload -U edit-command-line
+# # Emacs style
+zle -N edit-command-line
+bindkey '^xe' edit-command-line
+bindkey '^x^e' edit-command-line
+
 bindkey "\e[1~" beginning-of-line
 bindkey "\e[4~" end-of-line
 bindkey    "^[[3~"          delete-char
 bindkey    "^[3;5~"         delete-char
 
+export KUBE_EDITOR=/opt/homebrew/bin/nvim
+export KUBECTL_EXTERNAL_DIFF=colordiff
+
 
 export GOPATH=~/go
-export PATH=/home/gee/.local/share/coursier/bin:/home/linuxbrew/.linuxbrew/bin:$HOME/bin:$HOME/.tfenv/bin:$HOME/.tgenv/bin:$HOME/.krew/bin:/home/graham/anaconda3/bin:$HOME/.cargo/bin:$PATH:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$GOPATH/bin:$HOME/scripts:$HOME/.tmux_scripts:/usr/local/go/bin:$HOME/Programs/sdk/platform-tools:$HOME/.composer/vendor/bin
+export PATH=$HOME/bin:$HOME/code/lua-language-server/bin/macOS:$HOME/.tfenv/bin:$HOME/.tgenv/bin:$HOME/.krew/bin:/home/graham/anaconda3/bin:$HOME/.cargo/bin:$PATH:/usr/lib/lightdm/lightdm:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:$GOPATH/bin:$HOME/scripts:$HOME/.tmux_scripts:/usr/local/go/bin:$HOME/Programs/sdk/platform-tools:$HOME/.composer/vendor/bin:/Users/gee/.linkerd2/bin
 
 #export TERM=xterm-256color
 #export TERM=screen-256color
+alias vim="nvim"
 alias tmux="tmux -2"
 alias tmls="tmux list-sessions"
 alias tmks="tmux kill-session -t "
@@ -40,11 +52,14 @@ alias mkd-off='eval $(minikube docker-env -u)'
 alias watch='watch '
 alias k='kubectl'
 alias kgp='kubectl get pods'
+alias kpf='kubectl port-forward'
 alias klo='kubectl logs'
 alias kga='kubectl get all'
 alias kgn='kubectl get namespaces'
 alias k2='kubectl --kubeconfig ~/.kube/alt_config'
 alias kbb='k run -i --tty --rm busybox --image=busybox --restart=Never -- sh'
+alias kev="kubectl get events --sort-by='.metadata.creationTimestamp'"
+alias kgaa="kubectl api-resources --verbs=list --namespaced -o name | xargs -n 1 kubectl get --show-kind --ignore-not-found"
 
 alias ll='ls -lpah'
 
@@ -115,6 +130,7 @@ bindkey '^j' run_kubens
 
 #source <(helm completion zsh)
 source <(kubectl completion zsh)
+source <(argo completion zsh)
 
 # This is the same functionality as fzf's ctrl-t, except that the file or
 # directory selected is now automatically cd'ed or opened, respectively.
@@ -151,7 +167,8 @@ setopt hist_verify            # show command with history expansion to user befo
 setopt inc_append_history     # add commands to HISTFILE in order of execution
 setopt share_history # share command history data
 
-##eval "$(pyenv init -)"
+
+eval "$(pyenv init -)"
 #
 #export PATH="/home/gee/.pyenv/bin:$PATH"
 #eval "$(pyenv init -)"
@@ -171,3 +188,33 @@ fpath+=${ZDOTDIR:-~}/.zsh_functions
 
 
 source /Users/gee/.config/broot/launcher/bash/br
+
+alias luamake=/Users/gee/code/lua-language-server/3rd/luamake/luamake
+FILES=(~/.kube/configs/*); IFS=: eval 'export KUBECONFIG="${FILES[*]}"'
+
+
+
+  # Source this file in your .zshrc
+export awscreds=~/.aws/credentials
+which aws >/dev/null 2>&1 || { echo "Warning: aws cli not installed." >&2; }
+which fzf >/dev/null 2>&1 || { echo "Warning: fzf not installed." >&2; }
+
+
+# modified from __fzf_history__ at https://github.com/junegunn/fzf/blob/master/shell/key-bindings.bash
+# objective:
+#   - Ctrl-b bound to this function searches aws profile with fzf
+#   - selecting an item returns the profile to the prompt in edit mode
+#   - similar to Ctrl-r doing a history search with fzf
+#   - $ Ctrl-b->pick profile->type aws command->[enter]
+fzf_aws_prof() {
+  local output
+  output=$(
+    grep -e '^\[' $awscreds | awk -F"[][]" '{print $2}' |while read p ; do echo "AWS_PROFILE=$p" ; done |
+    fzf +s --tac
+  ) || return
+ BUFFER="$output "; zle end-of-line; 
+}
+
+# Create a ZSH "Widget" and bind to key (CTRL+B here)
+zle -N awsprof fzf_aws_prof
+bindkey '^b' awsprof

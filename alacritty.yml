@@ -27,7 +27,7 @@
 colors:
   # Default colors
   primary:
-    background: '0x161616'
+    background: '0x101010'
     foreground: '0xffffff'
 
   # Normal colors
@@ -108,11 +108,6 @@ font:
   # This is a global setting and will require a log out or restart to take
   # effect.
   use_thin_strokes: true
-
-shell:
-  program: /opt/homebrew/bin/tmux
-  args:
-  - "-2"
 
 key_bindings:
   - { key: Key3,     mods: Alt,     chars: "#"  }
