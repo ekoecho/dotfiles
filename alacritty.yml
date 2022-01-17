@@ -111,4 +111,5 @@ font:
 
 key_bindings:
   - { key: Key3,     mods: Alt,     chars: "#"  }
- 
+env:
+  TERM: xterm-256color 

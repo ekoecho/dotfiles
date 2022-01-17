@@ -1,7 +1,7 @@
 #zmodload zsh/zprof
 setopt nonomatch
 source ~/zgen/zgen.zsh
-export TERM="alacritty"
+#export TERM="alacritty"
 export HISTFILE=~/.zsh_history
 if ! zgen saved; then
 
@@ -61,7 +61,8 @@ alias kbb='k run -i --tty --rm busybox --image=busybox --restart=Never -- sh'
 alias kev="kubectl get events --sort-by='.metadata.creationTimestamp'"
 alias kgaa="kubectl api-resources --verbs=list --namespaced -o name | xargs -n 1 kubectl get --show-kind --ignore-not-found"
 
-alias ll='ls -lpah'
+alias ls='ls -G'
+alias ll='ls -lpahG'
 
 
 setopt EXTENDED_HISTORY
