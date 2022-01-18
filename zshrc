@@ -188,7 +188,7 @@ export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
 fpath+=${ZDOTDIR:-~}/.zsh_functions
 
 
-source /Users/gee/.config/broot/launcher/bash/br
+source $HOME/.config/broot/launcher/bash/br
 
 alias luamake=/Users/gee/code/lua-language-server/3rd/luamake/luamake
 FILES=(~/.kube/configs/*); IFS=: eval 'export KUBECONFIG="${FILES[*]}"'
