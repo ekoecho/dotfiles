@@ -25,7 +25,7 @@ bindkey "\e[4~" end-of-line
 bindkey    "^[[3~"          delete-char
 bindkey    "^[3;5~"         delete-char
 
-export KUBE_EDITOR=/opt/homebrew/bin/nvim
+export KUBE_EDITOR=nvim
 export KUBECTL_EXTERNAL_DIFF=colordiff
 
 
