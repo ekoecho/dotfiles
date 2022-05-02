@@ -24,8 +24,9 @@ bindkey "\e[1~" beginning-of-line
 bindkey "\e[4~" end-of-line
 bindkey    "^[[3~"          delete-char
 bindkey    "^[3;5~"         delete-char
-
-export KUBE_EDITOR=nvim
+export EDITOR=nvim
+export VISUAL="$EDITOR"
+export KUBE_EDITOR="$EDITOR"
 export KUBECTL_EXTERNAL_DIFF=colordiff
 
 
@@ -35,6 +36,7 @@ export PATH=$HOME/bin:$HOME/code/lua-language-server/bin/macOS:$HOME/.tfenv/bin:
 #export TERM=xterm-256color
 #export TERM=screen-256color
 alias vim="nvim"
+alias vimdiff="nvim -d"
 alias tmux="tmux -2"
 alias tmls="tmux list-sessions"
 alias tmks="tmux kill-session -t "
@@ -160,6 +162,7 @@ HISTSIZE=50000
 SAVEHIST=10000
 
 ## History command configuration
+setopt appendhistory
 setopt extended_history       # record timestamp of command in HISTFILE
 setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
 setopt hist_ignore_dups       # ignore duplicated commands history list
@@ -219,3 +222,10 @@ fzf_aws_prof() {
 # Create a ZSH "Widget" and bind to key (CTRL+B here)
 zle -N awsprof fzf_aws_prof
 bindkey '^b' awsprof
+
+#eval "$(mcfly init zsh)"
+eval "$(direnv hook zsh)"
+
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /opt/homebrew/bin/terraform terraform
